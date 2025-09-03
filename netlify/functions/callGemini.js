@@ -4,7 +4,7 @@
 exports.handler = async function (event, context) {
   // 1. Get the secret API key from environment variables
   const apiKey = process.env.GEMINI_API_KEY;
-  const API_MODEL = 'gemini-1.5-flash-latest';
+  const API_MODEL = 'gemini-2.0-flash';
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=${apiKey}`;
 
   // 2. Get the prompt data sent from your frontend
