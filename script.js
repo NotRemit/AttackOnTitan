@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- FIXED: API Configuration ---
             const API_MODEL = 'gemini-1.5-flash-latest';
             // IMPORTANT: Replace the placeholder with your actual Google AI Studio API key
-            // const apiKey = "AIzaSyD4xwKx3T0DrB19pdjfAuK8ezrf2bXkVY4";
             // const apiKey = process.env.apiKey;
             // const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=${apiKey}`;
             const API_URL = '/.netlify/functions/callGemini';
