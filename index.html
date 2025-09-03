@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shinzou wo Sasageyo! | Attack on Titan Fan Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+Pro:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png"> <!-- Wings of Freedom Icon -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Thematic Custom Styles */
+        :root {
+            --dark-bg: #101112;
+            --primary-text: #f0e6d2;
+            /* Parchment color */
+            --accent-red: #a4161a;
+            --border-color: #333;
+            --card-bg: #1a1a1a;
+            --header-font: 'Oswald', sans-serif;
+            --body-font: 'Source Sans Pro', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--primary-text);
+            font-family: var(--body-font);
+        }
+
+        h1,
+        h2,
+        h3,
+        .logo {
+            font-family: var(--header-font);
+        }
+
+        .text-accent-red {
+            color: var(--accent-red);
+        }
+
+        .bg-accent-red {
+            background-color: var(--accent-red);
+        }
+
+        .border-accent-red {
+            border-color: var(--accent-red);
+        }
+
+        .bg-card {
+            background-color: var(--card-bg);
+        }
+
+        .border-custom {
+            border-color: var(--border-color);
+        }
+
+        .bg-primary-text {
+            background-color: var(--primary-text);
+        }
+
+        /* Hero background */
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('wallpaperflare.com_wallpaper.jpg') no-repeat center center/cover;
+        }
+
+        /* Titan card background */
+        .titan-card-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.ibb.co/pQ8mF1H/k-X0e3u-S.jpg') no-repeat center center/cover;
+            transition: transform 0.4s ease;
+        }
+
+        .titan-card-bg:hover {
+            transform: scale(1.05);
+        }
+
+        /* Navigation underline animation */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-red);
+            transition: width 0.3s ease-out;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Section heading underline */
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background-color: var(--accent-red);
+        }
+
+        /* Card reveal animation */
+        .reveal-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .reveal-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile menu transition */
+        .mobile-nav {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid var(--primary-text);
+            border-bottom-color: var(--accent-red);
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Personality Test Styles */
+        .quiz-option {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .quiz-option:hover {
+            background-color: #2a2a2a;
+            border-color: var(--primary-text);
+        }
+
+        .quiz-option.selected {
+            background-color: var(--accent-red);
+            border-color: var(--accent-red);
+            color: var(--primary-text);
+        }
+
+        * Role-Playing Game Styling */ #rpg-log {
+            height: 300px;
+            background-color: #0c0d0e;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .rpg-log-entry {
+            margin-bottom: 1rem;
+        }
+
+        .rpg-log-entry.model {
+            color: #b0a89a;
+        }
+
+        .rpg-log-entry.user {
+            color: var(--primary-text);
+            font-style: italic;
+            text-align: right;
+        }
+
+        .rpg-log-entry strong {
+            color: var(--accent-red);
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+    <!-- Header & Navigation -->
+    <header class="fixed top-0 left-0 w-full bg-black/50 backdrop-blur-sm z-50 border-b border-custom">
+        <nav class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="#"
+                class="logo text-2xl md:text-3xl font-bold tracking-wider hover:text-accent-red transition-colors duration-300">進撃の巨人</a>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex items-center space-x-8">
+                <li><a href="#about" class="nav-link relative uppercase tracking-widest text-sm pb-1">About</a></li>
+                <li><a href="#gemini-backstory" class="nav-link relative uppercase tracking-widest text-sm pb-1">AI
+                        Twist ✨</a></li>
+                <li><a href="#characters"
+                        class="nav-link relative uppercase tracking-widest text-sm pb-1">Characters</a></li>
+                <li><a href="#titans" class="nav-link relative uppercase tracking-widest text-sm pb-1">The Nine
+                        Titans</a></li>
+                <li><a href="#gallery" class="nav-link relative uppercase tracking-widest text-sm pb-1">Gallery</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="hamburger" class="md:hidden z-50 space-y-1.5">
+                <span class="block w-6 h-0.5 bg-primary-text transition-transform duration-300 ease-in-out"></span>
+                <span class="block w-6 h-0.5 bg-primary-text transition-opacity duration-300 ease-in-out"></span>
+                <span class="block w-6 h-0.5 bg-primary-text transition-transform duration-300 ease-in-out"></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu"
+        class="mobile-nav fixed top-0 right-0 h-full w-full bg-dark-bg/95 backdrop-blur-lg transform translate-x-full z-40 md:hidden">
+        <ul class="h-full flex flex-col justify-center items-center space-y-8">
+            <li><a href="#about" class="mobile-nav-link text-2xl uppercase tracking-widest">About</a></li>
+            <li><a href="#gemini-backstory" class="mobile-nav-link text-2xl uppercase tracking-widest">AI Twist ✨</a>
+            </li>
+            <li><a href="#characters" class="mobile-nav-link text-2xl uppercase tracking-widest">Characters</a></li>
+            <li><a href="#titans" class="mobile-nav-link text-2xl uppercase tracking-widest">The Nine Titans</a></li>
+            <li><a href="#gallery" class="mobile-nav-link text-2xl uppercase tracking-widest">Gallery</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content Wrapper -->
+    <div class="relative z-20 bg-dark-bg">
+        <main>
+            <!-- Hero Section -->
+            <section id="hero" class="h-screen w-full flex items-center justify-center text-center hero-bg">
+                <div class="px-4">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-wider text-white"
+                        style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">On that day, mankind received a grim reminder.
+                    </h1>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-300">We lived in fear of the Titans
+                        and were disgraced to live in these cages we called walls.</p>
+                    <a href="#gemini-backstory"
+                        class="mt-8 inline-block bg-accent-red text-primary-text uppercase font-bold tracking-widest py-3 px-8 border-2 border-accent-red rounded-lg hover:bg-transparent hover:text-primary-text transition-all duration-300">
+                        Discover Your Story
+                    </a>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="py-20 md:py-28">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="section-heading relative text-3xl md:text-4xl font-bold uppercase pb-4 mb-12">The Story
+                        of Humanity's Struggle</h2>
+                    <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
+                        Set in a world where humanity is forced to live in cities surrounded by three enormous walls
+                        that protect them from gigantic man-eating humanoids referred to as Titans, the story follows
+                        Eren Yeager. After his hometown is destroyed and his mother is killed, Eren vows to cleanse the
+                        earth of the Titans and joins the elite Survey Corps to fight for humanity's freedom.
+                    </p>
+                </div>
+
+                <!-- Quote Section -->
+                <div class="mt-16 max-w-3xl mx-auto">
+                    <div class="bg-card border border-custom rounded-lg p-6 text-center reveal-card">
+                        <blockquote id="quote-text"
+                            class="text-lg md:text-xl italic text-primary-text transition-opacity duration-300 min-h-[84px] flex items-center justify-center">
+                            "If you win, you live. If you lose, you die. If you don't fight, you can't win!"
+                        </blockquote>
+                        <figcaption id="quote-character"
+                            class="mt-4 text-accent-red font-bold tracking-wider transition-opacity duration-300">- Eren
+                            Yeager</figcaption>
+                    </div>
+                    <button id="new-quote-btn"
+                        class="mt-6 mx-auto block bg-transparent text-primary-text uppercase font-bold tracking-widest py-2 px-6 border-2 border-custom rounded-lg hover:bg-accent-red hover:border-accent-red transition-all duration-300">
+                        New Quote
+                    </button>
+                </div>
+            </section>
+
+            <!-- Gemini Backstory Generator Section -->
+            <section id="gemini-backstory" class="py-20 md:py-28">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="section-heading relative text-3xl md:text-4xl font-bold uppercase pb-4 mb-12">Generate
+                        Your AoT Backstory ✨</h2>
+                    <p class="max-w-2xl mx-auto mb-8">Ever wondered who you would be inside the walls? Enter your name
+                        below and let our scouts generate a unique backstory for you.</p>
+                    <div class="max-w-lg mx-auto flex flex-col sm:flex-row gap-4">
+                        <input type="text" id="name-input" placeholder="Enter your name..."
+                            class="w-full px-4 py-3 bg-card border border-custom rounded-lg text-primary-text focus:outline-none focus:ring-2 focus:ring-accent-red transition-all">
+                        <button id="generate-btn"
+                            class="bg-accent-red text-primary-text uppercase font-bold tracking-widest py-3 px-8 border-2 border-accent-red rounded-lg hover:bg-transparent hover:text-primary-text transition-all duration-300 whitespace-nowrap">
+                            Generate Backstory
+                        </button>
+                    </div>
+                    <div id="backstory-result"
+                        class="mt-8 max-w-3xl mx-auto text-left p-6 bg-card border border-custom rounded-lg min-h-[150px] whitespace-pre-wrap leading-relaxed">
+                        <div id="backstory-loader" class="hidden mx-auto loader"></div>
+                        <p id="result-text" class="text-gray-400">Your generated backstory will appear here...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Personality Test Section -->
+            <section id="personality-test" class="py-20 md:py-28">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="section-heading relative text-3xl md:text-4xl font-bold uppercase pb-4 mb-12">Which
+                        Character Are You?</h2>
+                    <div id="quiz-container"
+                        class="max-w-3xl mx-auto bg-card border border-custom rounded-lg p-6 md:p-8 min-h-[400px] flex flex-col justify-center items-center">
+
+                        <!-- Quiz Start View -->
+                        <div id="quiz-start">
+                            <p class="mb-8 text-lg">Find out which Attack on Titan character you align with most. Answer
+                                five questions to reveal your counterpart.</p>
+                            <button id="start-quiz-btn"
+                                class="bg-accent-red text-primary-text uppercase font-bold tracking-widest py-3 px-8 border-2 border-accent-red rounded-lg hover:bg-transparent hover:text-primary-text transition-all duration-300">
+                                Start The Quiz
+                            </button>
+                        </div>
+
+                        <!-- Quiz Question View -->
+                        <div id="quiz-question-view" class="hidden w-full">
+                            <h3 id="question-text" class="text-xl md:text-2xl font-bold mb-6"></h3>
+                            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                                <!-- Options will be dynamically inserted here -->
+                            </div>
+                            <div id="quiz-nav" class="mt-8 flex justify-center w-full">
+                                <button id="next-question-btn"
+                                    class="bg-transparent text-primary-text uppercase font-bold tracking-widest py-2 px-8 border-2 border-custom rounded-lg hover:bg-accent-red hover:border-accent-red transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled>
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Result View -->
+                        <div id="quiz-result-view" class="hidden w-full text-center">
+                            <p class="text-lg mb-2">You are most like...</p>
+                            <h3 id="result-character-name" class="text-4xl font-bold text-accent-red mb-4"></h3>
+                            <img id="result-character-image" src="" alt=""
+                                class="w-48 h-48 object-cover rounded-full mx-auto border-4 border-custom mb-6">
+                            <p id="result-explanation" class="leading-relaxed"></p>
+                            <button id="retake-quiz-btn"
+                                class="mt-8 bg-transparent text-primary-text uppercase font-bold tracking-widest py-2 px-6 border-2 border-custom rounded-lg hover:bg-accent-red hover:border-accent-red transition-all duration-300">
+                                Retake Quiz
+                            </button>
+                        </div>
+
+                        <!-- Quiz Loader -->
+                        <div id="quiz-loader" class="hidden mx-auto loader"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="role-play" class="py-20 md:py-28">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="section-heading relative text-3xl md:text-4xl font-bold uppercase pb-4 mb-12">Live Your
+                        Story</h2>
+                    <div id="rpg-container"
+                        class="max-w-3xl mx-auto bg-card border border-custom rounded-lg p-6 md:p-8 text-left">
+
+                        <div id="rpg-char-select-view">
+                            <h3 class="text-2xl font-bold text-center mb-2">Choose Your Character</h3>
+                            <p class="text-center text-gray-400 mb-8">Select a character to begin your 3-turn story
+                                inside the walls.</p>
+                            <div id="rpg-char-list" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            </div>
+                        </div>
+
+                        <div id="rpg-game-view" class="hidden">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 id="rpg-character-name" class="text-xl font-bold text-accent-red"></h3>
+                                <p id="rpg-turn-counter" class="text-lg font-bold"></p>
+                            </div>
+                            <div id="rpg-log" class="mb-4">
+                            </div>
+                            <div id="rpg-current-scenario" class="mb-4 min-h-[50px] flex items-center justify-center">
+                                <div id="rpg-loader" class="hidden mx-auto loader"></div>
+                                <p id="rpg-scenario-text"></p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <textarea id="rpg-user-input" rows="2" placeholder="What do you do?"
+                                    class="w-full px-4 py-2 bg-[#0c0d0e] border border-custom rounded-lg text-primary-text focus:outline-none focus:ring-2 focus:ring-accent-red transition-all resize-none"></textarea>
+                                <button id="rpg-submit-btn"
+                                    class="bg-accent-red text-primary-text uppercase font-bold tracking-widest py-3 px-6 border-2 border-accent-red rounded-lg hover:bg-transparent hover:text-primary-text transition-all duration-300 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Submit Action
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="rpg-summary-view" class="hidden text-center">
+                            <h3 class="text-2xl font-bold text-center mb-4">Your Story's End</h3>
+                            <div id="rpg-summary-text"
+                                class="text-left whitespace-pre-wrap leading-relaxed bg-[#0c0d0e] p-4 rounded-lg border border-custom">
+                            </div>
+                            <button id="rpg-restart-btn"
+                                class="mt-8 bg-transparent text-primary-text uppercase font-bold tracking-widest py-2 px-6 border-2 border-custom rounded-lg hover:bg-accent-red hover:border-accent-red transition-all duration-300">
+                                Play Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Characters Section -->
+            <section id="characters" class="py-20 md:py-28 bg-black/20">
+                <div class="container mx-auto px-6">
+                    <h2
+                        class="section-heading relative text-3xl md:text-4xl text-center font-bold uppercase pb-4 mb-12">
+                        Key Characters</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Character Card 1: Eren -->
+                        <div
+                            class="reveal-card bg-card border border-custom rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-accent-red/20 transition-all duration-300 transform hover:-translate-y-2">
+                            <img src="Eren Yeager.jpg" alt="Eren Yeager" class="w-full h-80 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold text-accent-red">Eren Yeager</h3>
+                                <p class="mt-2 text-sm">Driven by vengeance and a fierce desire for freedom, he is the
+                                    story's complex protagonist.</p>
+                            </div>
+                        </div>
+                        <!-- Character Card 2: Mikasa -->
+                        <div
+                            class="reveal-card bg-card border border-custom rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-accent-red/20 transition-all duration-300 transform hover:-translate-y-2">
+                            <img src="Mikasa Ackerman.jpg" alt="Mikasa Ackerman" class="w-full h-80 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold text-accent-red">Mikasa Ackerman</h3>
+                                <p class="mt-2 text-sm">Eren's childhood friend, a peerless soldier who will do anything
+                                    to protect him.</p>
+                            </div>
+                        </div>
+                        <!-- Character Card 3: Armin -->
+                        <div
+                            class="reveal-card bg-card border border-custom rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-accent-red/20 transition-all duration-300 transform hover:-translate-y-2">
+                            <img src="Armin.jpg" alt="Armin Arlert" class="w-full h-80 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold text-accent-red">Armin Arlert</h3>
+                                <p class="mt-2 text-sm">A brilliant strategist and another of Eren's childhood friends,
+                                    valued for his intelligence.</p>
+                            </div>
+                        </div>
+                        <!-- Character Card 4: Levi -->
+                        <div
+                            class="reveal-card bg-card border border-custom rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-accent-red/20 transition-all duration-300 transform hover:-translate-y-2">
+                            <img src="Levi.jpg" alt="Levi Ackerman" class="w-full h-80 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold text-accent-red">Levi Ackerman</h3>
+                                <p class="mt-2 text-sm">Known as humanity's strongest soldier, he is the captain of the
+                                    Special Operations Squad.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="titans" class="py-20 md:py-28">
+                <div class="container mx-auto px-6">
+                    <h2
+                        class="section-heading relative text-3xl md:text-4xl text-center font-bold uppercase pb-4 mb-12">
+                        The Nine Titans</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 text-center">
+
+                        <!-- Attack Titan -->
+                        <div class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px]">
+                            <img src="attack.jpg" alt="Attack Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                Attack Titan</h3>
+                        </div>
+
+                        <!-- War Hammer Titan -->
+                        <div class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px]">
+                            <img src="war.jpg" alt="War Hammer Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                War Hammer Titan</h3>
+                        </div>
+
+
+                        <!-- Colossal Titan -->
+                        <div class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px]">
+                            <img src="colosal.jpg" alt="Colossal Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                Colossal Titan</h3>
+                        </div>
+
+                        <!-- Armored Titan -->
+                        <div class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px]">
+                            <img src="armored.jpg" alt="Armored Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                Armored Titan</h3>
+                        </div>
+
+                        <!-- Female Titan -->
+                        <div class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px]">
+                            <img src="female.jpeg" alt="Female Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                Female Titan</h3>
+                        </div>
+
+                        <!-- Beast Titan -->
+                        <div class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px]">
+                            <img src="beast.jpg" alt="Beast Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                Beast Titan</h3>
+                        </div>
+
+                        <!-- Jaw Titan -->
+                        <div class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px]">
+                            <img src="jaw.jpg" alt="Jaw Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                Jaw Titan</h3>
+                        </div>
+
+                        <!-- Cart Titan -->
+                        <div class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px]">
+                            <img src="cart.jpg" alt="Cart Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                Cart Titan</h3>
+                        </div>
+
+                        <!-- Founding Titan -->
+                        <div
+                            class="reveal-card relative rounded-lg overflow-hidden group min-h-[200px] col-span-2 md:col-span-1">
+                            <img src="FOUNDING.jpg" alt="Founding Titan"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500">
+                            </div>
+                            <h3
+                                class="relative z-10 text-xl md:text-2xl font-bold uppercase text-white flex items-center justify-center h-full">
+                                Founding Titan</h3>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Gallery Section -->
+            <section id="gallery" class="py-20 md:py-28 bg-black/20">
+                <div class="container mx-auto px-6">
+                    <h2
+                        class="section-heading relative text-3xl md:text-4xl text-center font-bold uppercase pb-4 mb-12">
+                        Iconic Moments</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div
+                            class="reveal-card overflow-hidden rounded-lg border-2 border-transparent hover:border-accent-red transition-all duration-300">
+                            <img src="collosal titan appearance.jpeg" alt="The Colossal Titan appears over the wall"
+                                class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div
+                            class="reveal-card overflow-hidden rounded-lg border-2 border-transparent hover:border-accent-red transition-all duration-300">
+                            <img src="reveal.jpeg" alt="The Survey Corps charging forward on horseback"
+                                class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div
+                            class="reveal-card overflow-hidden rounded-lg border-2 border-transparent hover:border-accent-red transition-all duration-300">
+                            <img src="levi vs beast titan.jpeg" alt="Eren in his Attack Titan form letting out a roar"
+                                class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div
+                            class="reveal-card overflow-hidden rounded-lg border-2 border-transparent hover:border-accent-red transition-all duration-300">
+                            <img src="rumbling.jpg" alt="Captain Levi Ackerman in a dynamic combat pose"
+                                class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-black py-8 text-center text-gray-400">
+            <div class="container mx-auto px-6 text-sm">
+                <p>Made with ❤️ by Remit and Subhankar.</p>
+                <p>Attack on Titan (進撃の巨人) is created by Hajime Isayama.</p>
+                <p class="mt-2">&copy; 2025 Enigma</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- <script src="config.js"></script> -->
+    <script src="script.js"></script>
+</body>
+
+</html>
